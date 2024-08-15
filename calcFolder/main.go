@@ -24,10 +24,14 @@ func Add(stringOne, stringTwo string) string {
 }
 
 func Subtract(stringOne, stringTwo string) string {
-	if !strings.Contains(stringOne, stringTwo) {
-		return TrimStringsAfter40(stringOne)
-	}
-	return TrimStringsAfter40(strings.ReplaceAll(stringOne, stringTwo, ""))
+	// Удаляем все вхождения подстроки stringTwo из stringOne
+	trimmedStr := strings.ReplaceAll(stringOne, stringTwo, "")
+
+	// Обрезаем лишние пробелы в начале и конце результата
+	result := strings.TrimSpace(trimmedStr)
+
+	// Возвращаем результат с ограничением длины до 40 символов
+	return TrimStringsAfter40(result)
 }
 
 func Multiply(stringOne, stringTwo string) string {
