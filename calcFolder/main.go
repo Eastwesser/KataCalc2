@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -34,7 +35,6 @@ func Multiply(stringOne, stringTwo string) string {
 	if err != nil || n < 1 || n > 10 {
 		panic("Некорректное число для умножения")
 	}
-
 	return TrimStringsAfter40(strings.Repeat(stringOne, n))
 }
 
@@ -59,38 +59,31 @@ func Divide(stringOne, stringTwo string) string {
 // Calculate функция записывает и показывает результаты вычислений
 func Calculate(input string) string {
 	input = strings.TrimSpace(input)
-	parts := strings.SplitN(input, " ", 3)
 
-	if len(parts) != 3 {
+	// Используем регулярное выражение для корректного считывания строки с кавычками
+	re := regexp.MustCompile(`^"(.+?)"\s*(\+|\-|\*|\/)\s*(".*?"|\d+)$`)
+	matches := re.FindStringSubmatch(input)
+
+	if len(matches) != 4 {
 		panic("Некорректное выражение")
 	}
 
-	str1 := parts[0]
-	operator := parts[1]
-	str2 := parts[2]
+	str1 := matches[1]
+	operator := matches[2]
+	str2 := matches[3]
 
-	// Проверяем, что строки находятся в кавычках
-	if !(strings.HasPrefix(str1, "\"") && strings.HasSuffix(str1, "\"")) {
-		panic("Первая строка должна быть заключена в кавычки")
-	}
-
-	str1 = strings.Trim(str1, "\"")
-
-	// Проверка для второго аргумента, если это строка
+	// Если вторая часть это строка в кавычках, удаляем кавычки
 	if strings.HasPrefix(str2, "\"") && strings.HasSuffix(str2, "\"") {
 		str2 = strings.Trim(str2, "\"")
 	} else {
-		// Если это не строка, проверяем что это число от 1 до 10
+		// Если это не строка, проверяем, что это число от 1 до 10
 		num, err := strconv.Atoi(str2)
 		if err != nil || num < 1 || num > 10 {
 			panic("Некорректное число, допустимы числа от 1 до 10")
 		}
 	}
 
-	if len(str1) == 0 || len(str2) == 0 {
-		panic("Некорректное выражение")
-	}
-
+	// Выполнение операции
 	switch operator {
 	case "+":
 		return Add(str1, str2)
@@ -116,7 +109,7 @@ func main() {
 		input := scanner.Text()
 
 		// Проверка на пустой ввод
-		if strings.TrimSpace(input) == "" || !strings.Contains(input, " ") {
+		if strings.TrimSpace(input) == "" {
 			fmt.Println("Ошибка! Введите валидное выражение!!!")
 			continue
 		}
@@ -126,7 +119,6 @@ func main() {
 			defer func() {
 				if r := recover(); r != nil {
 					fmt.Println("Произошла ошибка:", r)
-					os.Exit(1)
 				}
 			}()
 
