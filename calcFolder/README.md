@@ -16,7 +16,7 @@ To run the program, follow these steps:
 - Navigate to the project directory:
 
 ```bash
-cd strCalcLogic
+cd calcFolder
 ```
 
 - Start the application:
