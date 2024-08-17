@@ -24,8 +24,9 @@ func Add(stringOne, stringTwo string) string {
 }
 
 func Subtract(stringOne, stringTwo string) string {
-	// Удаляем все вхождения подстроки stringTwo из stringOne
-	trimmedStr := strings.ReplaceAll(stringOne, stringTwo, "")
+	// Создаем регулярное выражение для удаления подстроки с пробелами
+	re := regexp.MustCompile(`\s*` + regexp.QuoteMeta(stringTwo) + `\s*`)
+	trimmedStr := re.ReplaceAllString(stringOne, " ")
 
 	// Обрезаем лишние пробелы в начале и конце результата
 	result := strings.TrimSpace(trimmedStr)
