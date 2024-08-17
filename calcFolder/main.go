@@ -75,6 +75,11 @@ func Calculate(input string) string {
 	str1 := matches[1]
 	operator := matches[2]
 	str2 := matches[3]
+	
+	// Проверка длины первой строки
+	if len(str1) > 10 {
+		panic("Первая строка не может превышать 10 символов")
+	}
 
 	// Если вторая часть это строка в кавычках, удаляем кавычки
 	if strings.HasPrefix(str2, "\"") && strings.HasSuffix(str2, "\"") {
