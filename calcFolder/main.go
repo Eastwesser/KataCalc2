@@ -125,6 +125,7 @@ func main() {
 			defer func() {
 				if r := recover(); r != nil {
 					fmt.Println("Произошла ошибка:", r)
+					os.Exit(1) // Завершаем программу с кодом 1
 				}
 			}()
 
