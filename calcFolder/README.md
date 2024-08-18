@@ -31,7 +31,7 @@ The program will launch a console interface where you can input expressions in t
 "string" operator "string" (or number)
 ```
 
-Example input:
+- Example input:
 
 ```bash
 "Hello" + "World"
@@ -40,5 +40,6 @@ Example input:
 "Example!!!" / 2
 ```
 
-Requirements
+- Requirements:
+
 Go version 1.22 or higher
