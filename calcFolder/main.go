@@ -24,15 +24,11 @@ func Add(stringOne, stringTwo string) string {
 }
 
 func Subtract(stringOne, stringTwo string) string {
-	// Создаем регулярное выражение для удаления подстроки с пробелами
-	re := regexp.MustCompile(`\s*` + regexp.QuoteMeta(stringTwo) + `\s*`)
-	trimmedStr := re.ReplaceAllString(stringOne, " ")
-
-	// Обрезаем лишние пробелы в начале и конце результата
-	result := strings.TrimSpace(trimmedStr)
+	// Удаляем только подстроку, не трогая пробелы вокруг нее
+	trimmedStr := strings.Replace(stringOne, stringTwo, "", 1)
 
 	// Возвращаем результат с ограничением длины до 40 символов
-	return TrimStringsAfter40(result)
+	return TrimStringsAfter40(trimmedStr)
 }
 
 func Multiply(stringOne, stringTwo string) string {
@@ -76,7 +72,7 @@ func Calculate(input string) string {
 	str1 := matches[1]
 	operator := matches[2]
 	str2 := matches[3]
-	
+
 	// Проверка длины первой строки
 	if len(str1) > 10 {
 		panic("Первая строка не может превышать 10 символов")
