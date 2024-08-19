@@ -108,9 +108,16 @@ func Calculate(input string) string {
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
+	// Обработка паники
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Произошла ошибка:", r)
+			os.Exit(1)
+		}
+	}()
+
 	for {
 		fmt.Print("Введите выражение: ")
-
 		scanner.Scan()
 		input := scanner.Text()
 
@@ -120,17 +127,8 @@ func main() {
 			continue
 		}
 
-		// Обработка паники
-		func() {
-			defer func() {
-				if r := recover(); r != nil {
-					fmt.Println("Произошла ошибка:", r)
-					os.Exit(1)
-				}
-			}()
+		result := Calculate(input)
+		fmt.Println(result)
 
-			result := Calculate(input)
-			fmt.Println(result)
-		}()
 	}
 }
